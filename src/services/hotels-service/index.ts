@@ -5,7 +5,7 @@ import ticketService from "../tickets-service";
 
 async function validateTicketHotelRelation(userId: number) {
     const ticket = await ticketService.getTicketByUserId(userId);
-    if(!ticket.TicketType.includesHotel || ticket.status !== TicketStatus.PAID)
+    if(!ticket.TicketType.includesHotel || ticket.TicketType.isRemote || ticket.status !== TicketStatus.PAID)
         throw invalidTicketType();
 }
 

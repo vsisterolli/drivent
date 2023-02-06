@@ -12,7 +12,7 @@ export async function getHotels(req: AuthenticatedRequest, res: Response) {
         return res.send(hotels)
     } catch(error) {
         if(error.name === "NotFoundError")
-            return res.sendStatus(httpStatus.NO_CONTENT);
+            return res.sendStatus(httpStatus.NOT_FOUND);
         else
             return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
@@ -22,13 +22,12 @@ export async function getRooms(req: AuthenticatedRequest, res: Response) {
     try {
         await hotelsServices.validateTicketHotelRelation(req.userId);
         
-        const hotelId: number = req.params.id as unknown as number;
-
+        const hotelId: number = Number(req.params.id);
         const hotelWithRooms = await hotelsServices.validateHotelWithRooms(hotelId);
         return res.send(hotelWithRooms)
     } catch(error) {
         if(error.name === "NotFoundError")
-            return res.sendStatus(httpStatus.NO_CONTENT);
+            return res.sendStatus(httpStatus.NOT_FOUND);
         else
             return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
     }
